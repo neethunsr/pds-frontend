@@ -5,6 +5,7 @@ import SignIn from "./SignIn";
 import RegisterPage from './Register'
 import IMAllocation from './IMAllocation'
 import SKAllocation from './SKAllocation'
+import BlockRegister from './BlockchainRegister'
 
 function App() {
 	return (
@@ -16,6 +17,7 @@ function App() {
 					<Route path = "/register" element = {<RegisterPage/>} /> 
 					<Route path = "/ivallocation" element = {<IMAllocation/>} /> 
 					<Route path = "/spallocation" element = {<SKAllocation/>} />
+					<Route path = "/blockregister" element = {<BlockRegister/>} />
 					</Routes>
 			</BrowserRouter>
 		</div>

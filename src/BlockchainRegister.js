@@ -1,13 +1,17 @@
 import * as React from 'react'
-import { TextareaAutosize,Box,Container,TextField,Button } from '@mui/material';
+import {Box,Container,TextField,Button,FormControl,Select,InputLabel,MenuItem } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
-const blockRegister = () => {
+const BlockRegister = () => {
 
     const {register,handleSubmit} = useForm()
 
     const onSubmit = (data) =>{
         console.log(data)
+    }
+
+    const handleChange = (event) => {
+      console.log(event.target.value)
     }
 
     return (
@@ -27,19 +31,19 @@ const blockRegister = () => {
         ></Box>
         <Box mb = {2}>
           <TextField 
-            type = "number"
+            type = "text"
             variant = "outlined"
-            label = "Ration Card Number"
+            label = "MetaMask Address"
             fullWidth
             autoFocus
-            {...register("rationCardNumber", { required: true, maxLength: 20 })}
+            {...register("metaMaskAddress", { required: true, maxLength: 20 })}
           />
         </Box>
         <Box mb = {2}>
             <TextField
-            type = "number" 
+            type = "text" 
             variant = "outlined"
-            label = "Month"
+            label = "ifHash"
             min = "1"
             max = "12"
             fullWidth
@@ -47,36 +51,19 @@ const blockRegister = () => {
             {...register("month", { required: true, maxLength: 2 })}
             />
         </Box>
-        <Box mb = {2}>
-            <TextField
-            type = "number" 
-            variant = "outlined"
-            label = "Wheat"
-            fullWidth
-            autoFocus
-            {...register("wheat", { required: true, maxLength: 20 })}
-            />
-        </Box>
-        <Box mb = {2}>
-            <TextField 
-            type = "number"
-            variant = "outlined"
-            label = "Rice"
-            fullWidth
-            autoFocus
-            {...register("rice", { required: TextareaAutosize, maxLength: 20 })}
-            />
-        </Box>
-        <Box mb = {2}>
-            <TextField 
-            type = "number"
-            variant = "outlined"
-            label = "Kerosine"
-            fullWidth
-            autoFocus
-            {...register("kerosine", { required: true, maxLength: 20 })}
-            />
-        </Box>
+      <FormControl fullWidth>
+        <InputLabel id="registerType">Registration Type</InputLabel>
+          <Select
+            labelId="registerType"
+            id="registerType"
+            // value={age}
+            label="Registration Type"
+            onChange={handleChange}
+          >
+            <MenuItem  value = "1">Shop Keeper</MenuItem>
+            <MenuItem  value = "2">Inventory Manager</MenuItem>
+          </Select>
+      </FormControl>
       </form>
       <Button type = "submit" variant = "contained" color = "primary" onClick = {handleSubmit(onSubmit)} >Submit</Button>
     </Container>
@@ -84,4 +71,4 @@ const blockRegister = () => {
     )
 }
 
-export default blockRegister;
+export default BlockRegister;

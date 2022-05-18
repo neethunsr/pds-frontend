@@ -79,7 +79,7 @@ const IVAllocation = () => {
             />
         </Box>
       </form>
-      <Button type = "submit" variant = "contained" color = "primary" onClick = {handleSubmit(onSubmit)} >Submit</Button>
+      <Button type = "submit" variant = "contained" color = "primary" onClick = {handleSubmit(onSubmit)} >Allocate</Button>
     </Container>
     </div>
     )
