@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { useForm } from 'react-hook-form';
 
 function Copyright(props) {
 	return (
@@ -71,21 +72,21 @@ export default function SignIn() {
 							margin="normal"
 							required
 							fullWidth
-							id="email"
-							label="Email Address"
+							id="user_id"
+							label="user Id"
 							name="email"
-							autoComplete="email"
+							// autoComplete="email"
 							autoFocus
 						/>
 						<TextField
 							margin="normal"
 							required
 							fullWidth
-							name="password"
-							label="Password"
-							type="password"
-							id="password"
-							autoComplete="current-password"
+							name="phone_number"
+							label="Phone Number"
+							type="text"
+							id="phone_number"
+							// autoComplete="current-password"
 						/>
 						<FormControlLabel
 							control={<Checkbox value="remember" color="primary" />}
