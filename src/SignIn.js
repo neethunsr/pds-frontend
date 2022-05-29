@@ -13,18 +13,36 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Paper } from "@mui/material";
+import firebase from "./Firebase"
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+	var authvar = false;
+
+  	const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+	const data = new FormData(event.currentTarget);
+	
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+      userId: data.get("userid"),
+      phoneNumber: data.get("phone_number"),
+	});
+
+	const phoneNumber = data.get("phone_number");
+	const userId = data.get("userid");
+
+	if (authvar === true){
+		var number = '91' + phoneNumber;
+		const otp = data.get("otp");
+		console.log(otp);
+	}
+
+
+	authvar = true;
   };
+
+
 
   const [show, setShow] = React.useState(false);
   const [buttonText, setButtonText] = React.useState("Get OTP");
