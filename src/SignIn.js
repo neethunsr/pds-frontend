@@ -13,11 +13,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Paper } from "@mui/material";
-import firebase from "./Firebase"
+import firebase from "./firebase"
+import { useState } from 'react';
 
 const theme = createTheme();
 
 export default function SignIn() {
+  require('firebase/auth')
+  const [mynumber, setnumber] = useState("");
+  const [otp, setotp] = useState('');
+  const [show, setShow] = useState(false);
+  const [final, setfinal] = useState('');
 	var authvar = false;
 
   	const handleSubmit = (event) => {
@@ -30,13 +36,27 @@ export default function SignIn() {
 	});
 
 	const phoneNumber = data.get("phone_number");
-	const userId = data.get("userid");
+  const userId = data.get("userid");
+  var number = '91' + phoneNumber;
 
 	if (authvar === true){
-		var number = '91' + phoneNumber;
-		const otp = data.get("otp");
-		console.log(otp);
-	}
+		// const otp = data.get("otp");
+    console.log(otp);
+    
+
+  }
+  else {
+    // let verify = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    // // firebase.auth.signInWithPhoneNumber(number, verify).then((result) => {
+    // //     setfinal(result);
+    // //     alert("code sent")
+    // //     // setshow(true);
+    // // })
+    // //     .catch((err) => {
+    // //         alert(err);
+    // //         window.location.reload()
+    // //     })
+  }
 
 
 	authvar = true;
@@ -44,7 +64,7 @@ export default function SignIn() {
 
 
 
-  const [show, setShow] = React.useState(false);
+  // const [show, setShow] = React.useState(false);
   const [buttonText, setButtonText] = React.useState("Get OTP");
 
   const getOTP = () => {
@@ -147,6 +167,7 @@ export default function SignIn() {
               >
                 {buttonText}
               </Button>
+              <div id = "recarecaptcha-container"></div>
               <Grid container>
                 {/* <Grid item xs>
                 <Link href="#" variant="body2">
