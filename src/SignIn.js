@@ -3,8 +3,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +12,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import firebase from "./Firebase";
 // import { useForm } from 'react-hook-form';
 
 function Copyright(props) {
@@ -35,14 +36,46 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+	var authvar = false;
+
+  	const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+	const data = new FormData(event.currentTarget);
+	
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+      userId: data.get("userid"),
+      phoneNumber: data.get("phone_number"),
+	});
+
+	const phoneNumber = data.get("phone_number");
+	const userId = data.get("userid");
+
+	if (authvar === true){
+		var number = '91' + phoneNumber;
+		const otp = data.get("otp");
+		console.log(otp);
+	}
+
+
+	authvar = true;
   };
+
+  // const userId = data.get("userid")
+	// var phoneNumber = data.get("phone_number") 
+    // console.log({
+    //   UserId: userId,
+    //   phoneNumber: phoneNumber,
+	// });
+	
+	// if (authBool === true){
+	// 	phoneNumber = "91"+phoneNumber
+	// 	console.log({otp : data.get("otp")},phoneNumber)
+	// 	let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha')
+	// 	firebase.auth().SignInWithPhoneNumber(phoneNumber,recaptcha).then(function(e){
+
+	// 	})
+	// }
+
 
   const [show, setShow] = React.useState(false);
   const [buttonText, setButtonText] = React.useState("Get OTP");
@@ -80,7 +113,7 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="user_id"
+              id="userid"
               label="User Id"
               name="userid"
               // autoComplete="email"

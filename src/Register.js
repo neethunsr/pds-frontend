@@ -13,7 +13,7 @@ const RegisterPage = () => {
 
   return (
     <div className = "mt-5">
-      <h1>REGISTRATION</h1>
+      <h1>REGISTRATION  </h1>
     <Container 
       maxWidth = "xs"
     >
