@@ -8,30 +8,12 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import firebase from "./Firebase";
-// import { useForm } from 'react-hook-form';
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Paper } from "@mui/material";
+import firebase from "./Firebase"
 
 const theme = createTheme();
 
@@ -60,21 +42,6 @@ export default function SignIn() {
 	authvar = true;
   };
 
-  // const userId = data.get("userid")
-	// var phoneNumber = data.get("phone_number") 
-    // console.log({
-    //   UserId: userId,
-    //   phoneNumber: phoneNumber,
-	// });
-	
-	// if (authBool === true){
-	// 	phoneNumber = "91"+phoneNumber
-	// 	console.log({otp : data.get("otp")},phoneNumber)
-	// 	let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha')
-	// 	firebase.auth().SignInWithPhoneNumber(phoneNumber,recaptcha).then(function(e){
-
-	// 	})
-	// }
 
 
   const [show, setShow] = React.useState(false);
@@ -87,90 +54,116 @@ export default function SignIn() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        {/* <Container component="main" maxWidth="xs"> */}
         <CssBaseline />
-        <Box
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage:
+              "url(https://media.istockphoto.com/photos/wheat-field-sunset-picture-id155602366?b=1&k=20&m=155602366&s=170667a&w=0&h=KI1VrWWW5m7ZwSgN9z3mGI51sZHbVRGDO7MTtTd_GnE=)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+            sx={{
+              my: 8,
+              mx: 4,
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              paddingBottom: "50px",
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="userid"
-              label="User Id"
-              name="userid"
-              // autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="phone_number"
-              label="Phone Number"
-              type="text"
-              id="phone_number"
-              // autoComplete="current-password"
-            />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-            {show && (
+            <Avatar sx={{ m: 1, bgcolor: "#17396B" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign In
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
+            >
               <TextField
+                margin="normal"
+                color="success"
+                required
+                fullWidth
+                id="user_id"
+                label="User Id"
+                name="userid"
+                // autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                color="success"
                 margin="normal"
                 required
                 fullWidth
-                name="otp"
-                label="OTP"
+                name="phone_number"
+                label="Phone Number"
                 type="text"
-                id="otp"
-                variant="standard"
+                id="phone_number"
                 // autoComplete="current-password"
               />
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={getOTP}
-            >
-              {buttonText}
-            </Button>
-            <Grid container>
-              {/* <Grid item xs>
+              {show && (
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  color="success"
+                  name="otp"
+                  label="OTP"
+                  type="text"
+                  id="otp"
+                  variant="standard"
+                  // autoComplete="current-password"
+                />
+              )}
+              <Button
+                type="submit"
+                // fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={getOTP}
+                style={{
+                  background: "#17396B",
+                  margin: "50px 0",
+                }}
+              >
+                {buttonText}
+              </Button>
+              <Grid container>
+                {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid> */}
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Grid item>
+                  <Link href="/register" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
+        </Grid>
+        {/* </Container> */}
+      </Grid>
     </ThemeProvider>
   );
 }
