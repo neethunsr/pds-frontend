@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 // import contract from "./rds";
 import AdminPage from "./AdminPage";
+import ViewTransaction from "./ViewTr";
 
 function App() {
   // console.log(contract.abi);
@@ -25,6 +26,7 @@ function App() {
           <Route path="/imallocation" element={<IMAllocation />} />
           <Route path="/skallocation" element={<SKAllocation />} />
           <Route path="/blockregister" element={<BlockRegister />} />
+          <Route path="/view" element = {<ViewTransaction />} />
         </Routes>
       </BrowserRouter>
       <Footer />
