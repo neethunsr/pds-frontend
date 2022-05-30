@@ -44,7 +44,7 @@ const IVAllocation = () => {
       <Header pages={pages} log={true} />
       <div
         style={{
-          // backgroundImage: "url(/bg.png)",
+          backgroundImage: "url(/bg.svg)",
           height: "100vh",
           display: "flex",
           justifyContent: "center",

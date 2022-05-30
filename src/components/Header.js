@@ -71,9 +71,12 @@ const ResponsiveAppBar = ({ pages, log }) => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /><Avatar>H</Avatar> */}
+                  {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar>H</Avatar> */}
                   {/* <Avatar sx={{ bgcolor: deepOrange[500] }}>U</Avatar> */}
-                  <Avatar sx={{ bgcolor: deepOrange[500] }}>U</Avatar>
+                  <Avatar alt="user" sx={{ bgcolor: deepOrange[500] }}>
+                    U
+                  </Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -94,7 +97,7 @@ const ResponsiveAppBar = ({ pages, log }) => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography
+                    <Button
                       component="a"
                       href="/"
                       style={{
@@ -104,7 +107,7 @@ const ResponsiveAppBar = ({ pages, log }) => {
                       textAlign="center"
                     >
                       {setting}
-                    </Typography>
+                    </Button>
                   </MenuItem>
                 ))}
               </Menu>
