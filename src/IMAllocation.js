@@ -9,14 +9,18 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Header from "./components/Header";
+import { toast } from "react-toastify";
 
 // What if an im allocates to a shop not under them????
 
 const IVAllocation = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
+    // window.location.reload();
+    toast.success("Resource Allocated!");
+    // reset({ ...data });
   };
   const pages = [
     {
@@ -141,7 +145,7 @@ const IVAllocation = () => {
               </Box>
             </form>
             <Button
-              type="submit"
+              type="reset"
               variant="contained"
               // color="primary"
               style={{

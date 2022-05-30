@@ -9,12 +9,14 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Header from "./components/Header";
+import { toast } from "react-toastify";
 
 const IVAllocation = () => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
+    toast.success("Resource Allocated!");
   };
   const pages = [
     {

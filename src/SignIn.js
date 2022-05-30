@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./components/Header";
 import { Paper } from "@mui/material";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const theme = createTheme();
 
@@ -91,7 +92,7 @@ export default function SignIn() {
     ) {
       window.location.href = "/admin";
     } else {
-      alert("Invalid credantials");
+      toast.error("Invalid credantials");
     }
   };
 

@@ -12,12 +12,24 @@ import Header from "./components/Header";
 // import contract from "./rds";
 import AdminPage from "./AdminPage";
 import ViewTransaction from "./ViewTr";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   // console.log(contract.abi);
   return (
     <div className="App">
       {/* <Header /> */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />}></Route>

@@ -57,7 +57,7 @@ const RegisterPage = () => {
               color="success"
               fullWidth
               autoFocus
-              {...register("userId", { required: true, maxLength: 20 })}
+              {...register("UserId", { required: true, maxLength: 20 })}
             />
           </Box>
           <Box mb={2}>
