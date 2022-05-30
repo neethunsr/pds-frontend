@@ -9,10 +9,11 @@ import BlockRegister from "./BlockchainRegister";
 import Footer from "./components/Footer";
 // import Login from "./Login";
 import Header from "./components/Header";
-import contract from "./rds";
+// import contract from "./rds";
+import AdminPage from "./AdminPage";
 
 function App() {
-  console.log(contract.abi);
+  // console.log(contract.abi);
   return (
     <div className="App">
       <Header />
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SignIn />}></Route>
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/imallocation" element={<IMAllocation />} />
           <Route path="/skallocation" element={<SKAllocation />} />
           <Route path="/blockregister" element={<BlockRegister />} />
