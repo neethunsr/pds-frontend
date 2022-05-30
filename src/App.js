@@ -9,8 +9,10 @@ import BlockRegister from "./BlockchainRegister";
 import Footer from "./components/Footer";
 // import Login from "./Login";
 import Header from "./components/Header";
+import contract from "./rds";
 
 function App() {
+  console.log(contract.abi);
   return (
     <div className="App">
       <Header />
