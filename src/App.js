@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 // import Login from "./Login";
 import Header from "./components/Header";
 import AdminPage from "./AdminPage";
+import ViewTransaction from "./ViewTr";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/imallocation" element={<IMAllocation />} />
           <Route path="/skallocation" element={<SKAllocation />} />
           <Route path="/blockregister" element={<BlockRegister />} />
+          <Route path="/view" element = {<ViewTransaction />} />
         </Routes>
       </BrowserRouter>
       <Footer />

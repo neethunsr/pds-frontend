@@ -83,10 +83,10 @@ export default function SignIn() {
     if (userid === "IM1024" && phoneNo === "7034398989" && otpno === '2371') {
       window.location.href = "/imallocation";
     }
-    if (userid === "SK1369" && phoneNo === "7034398989" && otpno === '5678') {
+    else if (userid === "SK1369" && phoneNo === "7034398989" && otpno === '5678') {
       window.location.href = "/skallocation";
     }
-    if (userid === "admin" && phoneNo === "7034398989" && otpno === '4408') {
+    else if (userid === "admin" && phoneNo === "7034398989" && otpno === '4408') {
       window.location.href = "/admin";
     }
     else {
