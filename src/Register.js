@@ -53,7 +53,7 @@ const RegisterPage = () => {
           <Box mb={2}>
             <TextField
               variant="outlined"
-              label="user Id"
+              label="User Id"
               color="success"
               fullWidth
               autoFocus

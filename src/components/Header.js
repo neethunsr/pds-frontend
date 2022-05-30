@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { deepOrange } from "@mui/material/colors";
 
 // const pages = ["HOME", "ALLOCATIONS", "SIGN UP","VIEW TRANSACTION"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -70,7 +71,9 @@ const ResponsiveAppBar = ({ pages, log }) => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /><Avatar>H</Avatar> */}
+                  {/* <Avatar sx={{ bgcolor: deepOrange[500] }}>U</Avatar> */}
+                  <Avatar sx={{ bgcolor: deepOrange[500] }}>U</Avatar>
                 </IconButton>
               </Tooltip>
               <Menu
@@ -91,7 +94,17 @@ const ResponsiveAppBar = ({ pages, log }) => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                    <Typography
+                      component="a"
+                      href="/"
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                      }}
+                      textAlign="center"
+                    >
+                      {setting}
+                    </Typography>
                   </MenuItem>
                 ))}
               </Menu>
