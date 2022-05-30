@@ -3,17 +3,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-// import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Header from "./components/Header";
 import { Paper } from "@mui/material";
-import firebase from "./firebase";
 import { useState } from "react";
 
 const theme = createTheme();
@@ -63,7 +60,6 @@ export default function SignIn() {
   const [userid, setUserid] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [otpno, setOtpno] = useState("");
-  
 
   const getOTP = () => {
     setShow(true);
@@ -80,21 +76,45 @@ export default function SignIn() {
     setOtpno(e.target.value);
   };
   const onLogin = (e) => {
-    if (userid === "IM1024" && phoneNo === "7034398989" && otpno === '2371') {
+    if (userid === "IM1024" && phoneNo === "7034398989" && otpno === "2371") {
       window.location.href = "/imallocation";
-    }
-    else if (userid === "SK1369" && phoneNo === "7034398989" && otpno === '5678') {
+    } else if (
+      userid === "SK1369" &&
+      phoneNo === "7034398989" &&
+      otpno === "5678"
+    ) {
       window.location.href = "/skallocation";
-    }
-    else if (userid === "admin" && phoneNo === "7034398989" && otpno === '4408') {
+    } else if (
+      userid === "admin" &&
+      phoneNo === "7034398989" &&
+      otpno === "4408"
+    ) {
       window.location.href = "/admin";
-    }
-    else {
+    } else {
       alert("Invalid credantials");
     }
   };
+
+  const pages = [
+    {
+      name: "HOME",
+      link: "/",
+      id: 1,
+    },
+    {
+      name: "ABOUT US",
+      link: "#",
+      id: 3,
+    },
+    {
+      name: "REGISTER",
+      link: "/register",
+      id: 2,
+    },
+  ];
   return (
     <ThemeProvider theme={theme}>
+      <Header pages={pages} log={false} />
       <Grid container component="main" sx={{ height: "100vh" }}>
         {/* <Container component="main" maxWidth="xs"> */}
         <CssBaseline />

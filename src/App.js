@@ -17,7 +17,7 @@ function App() {
   // console.log(contract.abi);
   return (
     <div className="App">
-      <Header />
+      {/* <Header /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />}></Route>
@@ -26,7 +26,7 @@ function App() {
           <Route path="/imallocation" element={<IMAllocation />} />
           <Route path="/skallocation" element={<SKAllocation />} />
           <Route path="/blockregister" element={<BlockRegister />} />
-          <Route path="/view" element = {<ViewTransaction />} />
+          <Route path="/view" element={<ViewTransaction />} />
         </Routes>
       </BrowserRouter>
       <Footer />

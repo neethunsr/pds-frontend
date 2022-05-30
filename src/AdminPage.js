@@ -81,12 +81,12 @@ const pages = [
   },
   {
     name: "APPROVE",
-    link: "/admin",
+    link: "#",
     id: 2,
   },
   {
-    name: "VIEW",
-    link: "/",
+    name: "VIEW TRANSACTIONS",
+    link: "/view",
     id: 3,
   },
 ];

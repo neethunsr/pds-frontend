@@ -3,6 +3,7 @@ import { TextField, Button, Container, Box, Avatar } from "@mui/material";
 import { useForm } from "react-hook-form";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import Header from "./components/Header";
 
 const RegisterPage = () => {
   const { register, handleSubmit } = useForm();
@@ -11,9 +12,26 @@ const RegisterPage = () => {
     console.log(data);
     console.log("submission.....");
   };
-
+  const pages = [
+    {
+      name: "HOME",
+      link: "/",
+      id: 1,
+    },
+    {
+      name: "ABOUT US",
+      link: "#",
+      id: 3,
+    },
+    {
+      name: "SIGN IN",
+      link: "/",
+      id: 2,
+    },
+  ];
   return (
     <div>
+      <Header pages={pages} log={false} />
       <Container maxWidth="xs">
         <Box
           sx={{
