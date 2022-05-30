@@ -13,65 +13,74 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Paper } from "@mui/material";
-import firebase from "./firebase"
-import { useState } from 'react';
+import firebase from "./firebase";
+import { useState } from "react";
 
 const theme = createTheme();
 
 export default function SignIn() {
-  require('firebase/auth')
+  require("firebase/auth");
   const [mynumber, setnumber] = useState("");
-  const [otp, setotp] = useState('');
+  const [otp, setotp] = useState("");
   const [show, setShow] = useState(false);
-  const [final, setfinal] = useState('');
-	var authvar = false;
+  const [final, setfinal] = useState("");
+  var authvar = false;
 
-  	const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-	const data = new FormData(event.currentTarget);
-	
+    const data = new FormData(event.currentTarget);
+
     console.log({
       userId: data.get("userid"),
       phoneNumber: data.get("phone_number"),
-	});
+    });
 
-	const phoneNumber = data.get("phone_number");
-  const userId = data.get("userid");
-  var number = '91' + phoneNumber;
+    const phoneNumber = data.get("phone_number");
+    const userId = data.get("userid");
+    var number = "91" + phoneNumber;
 
-	if (authvar === true){
-		// const otp = data.get("otp");
-    console.log(otp);
-    
+    if (authvar === true) {
+      // const otp = data.get("otp");
+      console.log(otp);
+    } else {
+      // let verify = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+      // // firebase.auth.signInWithPhoneNumber(number, verify).then((result) => {
+      // //     setfinal(result);
+      // //     alert("code sent")
+      // //     // setshow(true);
+      // // })
+      // //     .catch((err) => {
+      // //         alert(err);
+      // //         window.location.reload()
+      // //     })
+    }
 
-  }
-  else {
-    // let verify = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-    // // firebase.auth.signInWithPhoneNumber(number, verify).then((result) => {
-    // //     setfinal(result);
-    // //     alert("code sent")
-    // //     // setshow(true);
-    // // })
-    // //     .catch((err) => {
-    // //         alert(err);
-    // //         window.location.reload()
-    // //     })
-  }
-
-
-	authvar = true;
+    authvar = true;
   };
-
-
 
   // const [show, setShow] = React.useState(false);
   const [buttonText, setButtonText] = React.useState("Get OTP");
+  const [userid, setUserid] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
 
   const getOTP = () => {
     setShow(true);
     setButtonText("Submit");
   };
 
+  const handleUserChange = (e) => {
+    setUserid(e.target.value);
+  };
+  const handlePhoneNoChange = (e) => {
+    setPhoneNo(e.target.value);
+  };
+  const onLogin = (e) => {
+    if (userid == "IM1024" && phoneNo == "7034398989") {
+      window.location.href = "/imallocation";
+    } else {
+      alert("Invalid Username or password");
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -128,6 +137,7 @@ export default function SignIn() {
                 name="userid"
                 // autoComplete="email"
                 autoFocus
+                onChange={handleUserChange}
               />
               <TextField
                 color="success"
@@ -139,6 +149,7 @@ export default function SignIn() {
                 type="text"
                 id="phone_number"
                 // autoComplete="current-password"
+                onChange={handlePhoneNoChange}
               />
               {show && (
                 <TextField
@@ -154,20 +165,39 @@ export default function SignIn() {
                   // autoComplete="current-password"
                 />
               )}
-              <Button
-                type="submit"
-                // fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={getOTP}
-                style={{
-                  background: "#17396B",
-                  margin: "50px 0",
-                }}
-              >
-                {buttonText}
-              </Button>
-              <div id = "recarecaptcha-container"></div>
+              {show && (
+                <Button
+                  type="submit"
+                  // fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={onLogin}
+                  style={{
+                    background: "#17396B",
+                    margin: "50px 0",
+                  }}
+                >
+                  Submit
+                </Button>
+              )}
+              {show ? (
+                <></>
+              ) : (
+                <Button
+                  type="submit"
+                  // fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={getOTP}
+                  style={{
+                    background: "#17396B",
+                    margin: "50px 0",
+                  }}
+                >
+                  Get OTP
+                </Button>
+              )}
+              <div id="recarecaptcha-container"></div>
               <Grid container>
                 {/* <Grid item xs>
                 <Link href="#" variant="body2">
