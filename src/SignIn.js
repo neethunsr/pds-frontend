@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+// import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Paper } from "@mui/material";
 import firebase from "./firebase";
@@ -62,6 +62,8 @@ export default function SignIn() {
   const [buttonText, setButtonText] = React.useState("Get OTP");
   const [userid, setUserid] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
+  const [otpno, setOtpno] = useState("");
+  
 
   const getOTP = () => {
     setShow(true);
@@ -74,11 +76,21 @@ export default function SignIn() {
   const handlePhoneNoChange = (e) => {
     setPhoneNo(e.target.value);
   };
+  const handleOTPChange = (e) => {
+    setOtpno(e.target.value);
+  };
   const onLogin = (e) => {
-    if (userid == "IM1024" && phoneNo == "7034398989") {
+    if (userid === "IM1024" && phoneNo === "7034398989" && otpno === '2371') {
       window.location.href = "/imallocation";
-    } else {
-      alert("Invalid Username or password");
+    }
+    if (userid === "SK1369" && phoneNo === "7034398989" && otpno === '5678') {
+      window.location.href = "/skallocation";
+    }
+    if (userid === "admin" && phoneNo === "7034398989" && otpno === '4408') {
+      window.location.href = "/admin";
+    }
+    else {
+      alert("Invalid credantials");
     }
   };
   return (
@@ -162,6 +174,7 @@ export default function SignIn() {
                   type="text"
                   id="otp"
                   variant="standard"
+                  onChange={handleOTPChange}
                   // autoComplete="current-password"
                 />
               )}
