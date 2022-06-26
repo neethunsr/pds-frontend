@@ -4,6 +4,9 @@ import { useForm } from "react-hook-form";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Header from "./components/Header";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const RegisterPage = () => {
   const { register, handleSubmit } = useForm();
@@ -11,6 +14,10 @@ const RegisterPage = () => {
   const onSubmit = (data) => {
     console.log(data);
     console.log("submission.....");
+    toast("Successfully Registered to the Network");
+    setTimeout(() => { window.location.href = "/";}, 5000);
+
+    
   };
   const pages = [
     {
@@ -77,7 +84,7 @@ const RegisterPage = () => {
               label="MetaMask Address"
               fullWidth
               autoFocus
-              {...register("metaAddress", { required: true, maxLength: 20 })}
+              {...register("metaAddress", { required: true })}
             />
           </Box>
           <Box>
@@ -102,6 +109,7 @@ const RegisterPage = () => {
           >
             Submit
           </Button>
+          <ToastContainer />
         </Box>
       </Container>
     </div>

@@ -92,7 +92,7 @@ const pages = [
 ];
 function AdminPage() {
   return (
-    <div>
+    <div style={{marginBottom:"50px"}}>
       <Header pages={pages} log={true} />
       <ToastContainer
         position="top-right"

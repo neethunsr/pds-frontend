@@ -33,8 +33,8 @@ function ViewTransaction() {
     <>
       {" "}
       <Header pages={pages} log={true} />
-      <h2 style={{ marginTop: "50px" }}>VIEW TRANSACTIONS</h2>
-      <div className="w-responsive text-center mx-auto p-5 mt-3">
+      <h2 style={{ marginTop: "70px" }}>VIEW TRANSACTIONS</h2>
+      <div className="w-responsive text-center mx-auto p-5 mt-3 mb-5">
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
