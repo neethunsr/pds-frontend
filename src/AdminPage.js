@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import firebase from "./firebase";
+import { useState, useEffect } from "react";
 
 function AdminCard(props) {
   const [status, setStatus] = React.useState(props.status);
@@ -91,6 +93,26 @@ const pages = [
   },
 ];
 function AdminPage() {
+  const ref = firebase.firestore().collection("users");
+  const [data, setData] = useState([]);
+  const items = [];
+
+  function getData() {
+    ref.onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+        setData(items);
+        // setLoader(false);
+      });
+    });
+  }
+  getData();
+  // useEffect(() => {
+  //   getData();
+  //   // setLoader(false);
+  //   console.log(data);
+  // }, []);
+  console.log("data", data);
   return (
     <div>
       <Header pages={pages} log={true} />
@@ -115,7 +137,18 @@ function AdminPage() {
           padding: "20px",
         }}
       >
-        <AdminCard
+        {data.map((user) => (
+          <AdminCard
+            type="Approve Shopkeeper"
+            address={user.address}
+            uid={user.license}
+            name={user.name}
+            place="Trivandrum"
+            status=""
+          />
+          // console.log(user);
+        ))}
+        {/* <AdminCard
           type="Approve Inventory Manager"
           address="0x36fB397bEf608f78Ff5b86F4a9952Bba09BcB18F"
           uid="IM1024"
@@ -138,7 +171,7 @@ function AdminPage() {
           name="Alice Stuart"
           place="Sreekaryam"
           status="Approved"
-        />
+        /> */}
       </div>
     </div>
   );

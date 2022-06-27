@@ -1,17 +1,50 @@
 import * as React from "react";
 import { TextField, Button, Container, Box, Avatar } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import firebase from "./firebase";
 import Header from "./components/Header";
 
 const RegisterPage = () => {
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log("submission.....");
+  const [license, setlicense] = useState("");
+  const [name, setname] = useState("");
+  const [address, setaddress] = useState("");
+  const [phone, setphone] = useState("");
+  const ref = firebase.firestore().collection("users");
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    if (id === "license") {
+      setlicense(value);
+    }
+    if (id === "name") {
+      setname(value);
+    }
+    if (id === "address") {
+      setaddress(value);
+    }
+    if (id === "phone") {
+      setphone(value);
+    }
   };
+  function createDoc(newDataObj) {
+    ref
+      .doc()
+      .set(newDataObj)
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(license, name, address, phone);
+    createDoc({ license, name, phone, address });
+  };
+
   const pages = [
     {
       name: "HOME",
@@ -46,18 +79,22 @@ const RegisterPage = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            New User Registration
+            Blockchain Registration
           </Typography>
         </Box>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" noValidate sx={{ mt: 1 }}>
           <Box mb={2}>
             <TextField
               variant="outlined"
-              label="User Id"
+              label="License No."
               color="success"
+              id="license"
               fullWidth
+              onChange={handleInputChange}
               autoFocus
-              {...register("UserId", { required: true, maxLength: 20 })}
+              value={license}
+              // {...register("UserId", { required: true, maxLength: 20 })}
+              on
             />
           </Box>
           <Box mb={2}>
@@ -65,9 +102,12 @@ const RegisterPage = () => {
               variant="outlined"
               color="success"
               label="Name"
+              id="name"
               fullWidth
               autoFocus
-              {...register("name", { required: true, maxLength: 20 })}
+              value={name}
+              onChange={handleInputChange}
+              // {...register("name", { required: true, maxLength: 20 })}
             />
           </Box>
           <Box mb={2}>
@@ -75,9 +115,12 @@ const RegisterPage = () => {
               color="success"
               variant="outlined"
               label="MetaMask Address"
+              id="address"
               fullWidth
               autoFocus
-              {...register("metaAddress", { required: true, maxLength: 20 })}
+              value={address}
+              onChange={handleInputChange}
+              // {...register("metaAddress", { required: true, maxLength: 20 })}
             />
           </Box>
           <Box>
@@ -85,16 +128,19 @@ const RegisterPage = () => {
               variant="outlined"
               color="success"
               label="Phone Number"
+              id="phone"
               fullWidth
               autoFocus
-              {...register("phoneNumber", { required: true, maxLength: 20 })}
+              value={phone}
+              onChange={handleInputChange}
+              // {...register("phoneNumber", { required: true, maxLength: 20 })}
             />
           </Box>
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            onClick={handleSubmit(onSubmit)}
+            onClick={handleSubmit}
             style={{
               background: "#17396B",
               margin: "40px 0",
