@@ -13,6 +13,7 @@ import Header from "./components/Header";
 import AdminPage from "./AdminPage";
 import ViewTransaction from "./ViewTr";
 import { ToastContainer } from "react-toastify";
+import StockData from "./StockData";
 
 function App() {
   // console.log(contract.abi);
@@ -39,6 +40,7 @@ function App() {
           <Route path="/skallocation" element={<SKAllocation />} />
           <Route path="/blockregister" element={<BlockRegister />} />
           <Route path="/view" element={<ViewTransaction />} />
+          <Route path="/stock" element={<StockData />} />
         </Routes>
       </BrowserRouter>
       <Footer />
