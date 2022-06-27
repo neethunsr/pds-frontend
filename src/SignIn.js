@@ -11,90 +11,208 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Header from "./components/Header";
 import { Paper } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { initializeApp } from "firebase/app";
+import { collection, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import customersData from "./data/customers.json";
+import firebase from "./firebase";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 
 const theme = createTheme();
+const firebaseConfig = {
+  apiKey: "AIzaSyC93gdZfaSH3bHm_4u7MD6ImjbrFpbgxSc",
+  authDomain: "finalprojectpds-b9a7e.firebaseapp.com",
+  projectId: "finalprojectpds-b9a7e",
+  storageBucket: "finalprojectpds-b9a7e.appspot.com",
+  messagingSenderId: "426892116372",
+  appId: "1:426892116372:web:6ace6da8e77ba269ef4f81",
+  measurementId: "G-Z8QLN3F6XG",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+// const db = getFirestore(app);
+
+// const phoneNumber = "+917034398989";
 
 export default function SignIn() {
-  require("firebase/auth");
-  const [mynumber, setnumber] = useState("");
-  const [otp, setotp] = useState("");
-  const [show, setShow] = useState(false);
-  const [final, setfinal] = useState("");
-  var authvar = false;
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-
-    console.log({
-      userId: data.get("userid"),
-      phoneNumber: data.get("phone_number"),
-    });
-
-    const phoneNumber = data.get("phone_number");
-    const userId = data.get("userid");
-    var number = "91" + phoneNumber;
-
-    if (authvar === true) {
-      // const otp = data.get("otp");
-      console.log(otp);
-    } else {
-      // let verify = new firebase.auth.RecaptchaVerifier('recaptcha-container');
-      // // firebase.auth.signInWithPhoneNumber(number, verify).then((result) => {
-      // //     setfinal(result);
-      // //     alert("code sent")
-      // //     // setshow(true);
-      // // })
-      // //     .catch((err) => {
-      // //         alert(err);
-      // //         window.location.reload()
-      // //     })
-    }
-
-    authvar = true;
-  };
-
-  // const [show, setShow] = React.useState(false);
-  const [buttonText, setButtonText] = React.useState("Get OTP");
+  const auth = getAuth();
+  auth.languageCode = "it";
   const [userid, setUserid] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [otpno, setOtpno] = useState("");
+  const [loader, setLoader] = useState(true);
+  const ref = firebase.firestore().collection("users");
+  const [data, setData] = useState([]);
+  // console.log(data);
 
-  const getOTP = () => {
-    setShow(true);
-    setButtonText("Submit");
+  function getData() {
+    ref.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+        setData(items);
+        setLoader(false);
+      });
+    });
+  }
+  // const [rationid, setRationid] = useState();
+  // if (loader === false) {
+  //   data.map((user) => {
+  //     // setRationid(user.rationid);
+  //     // console.log(user.rationid);
+  //     if (user.rationid == userid) {
+  //       setPhoneNo(user.phoneno);
+  //     }
+  //   });
+  //   // console.log(rationid);
+  // }
+
+  useEffect(() => {
+    getData();
+    setLoader(false);
+    console.log(data);
+  }, []);
+
+  const configureCaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          onSignInSubmit();
+          console.log(response);
+        },
+        defaultCountry: "IND",
+      },
+      auth
+    );
   };
+  const [flag, setflag] = useState("");
+  const onSignInSubmit = (e) => {
+    e.preventDefault();
+    const dataFromForm = new FormData(e.currentTarget);
+    const userno = dataFromForm.get("userid");
+    // console.log(userno);
+    data.map((user) => {
+      // setRationid(user.rationid);
+      console.log(user);
+      // console.log(user.rationid);
+      if (user.rationid === userno) {
+        console.log("User verified!");
+      }
+    });
+
+    // console.log(flag);
+    // setPhoneNo()
+    configureCaptcha();
+
+    const phoneNumber = "+917034398989";
+    console.log(phoneNumber);
+    const appVerifier = window.recaptchaVerifier;
+
+    const auth = getAuth();
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        setShow(true);
+
+        console.log("OTP has been sent");
+        // ...
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        console.log("SMS not sent");
+      });
+    if (userno[0] === "S") {
+      // window.location.href = "/imallocation";
+      setflag("S");
+      console.log(phoneNo);
+    } else if (userno[0] === "I") {
+      setflag("I");
+
+      // setPhoneNo("7034398989");
+      // window.location.href = "/skallocation";
+    } else if (userno[0] === "a") {
+      setflag("a");
+    } else {
+      toast.error("Enter correct userid");
+    }
+  };
+
+  const [success, setsuccess] = useState(false);
+  const onSubmitOTP = (e) => {
+    e.preventDefault();
+
+    const code = otpno;
+    console.log(code);
+    window.confirmationResult
+      .confirm(code)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        console.log(JSON.stringify(user));
+        toast.success("User verified");
+        setsuccess(true);
+        // ...
+      })
+      .catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        console.log("User couldn't sign in");
+      });
+  };
+
+  if (success === true && flag === "I") {
+    window.location.href = "/imallocation";
+  }
+  if (success === true && flag === "S") {
+    window.location.href = "/skallocation";
+  }
+  if (success === true && flag === "a") {
+    window.location.href = "/admin";
+  }
+  // require("firebase/auth");
+  const [show, setShow] = useState(false);
 
   const handleUserChange = (e) => {
     setUserid(e.target.value);
   };
-  const handlePhoneNoChange = (e) => {
-    setPhoneNo(e.target.value);
-  };
+  // const handlePhoneNoChange = (e) => {
+  //   setPhoneNo(e.target.value);
+  // };
   const handleOTPChange = (e) => {
     setOtpno(e.target.value);
   };
-  const onLogin = (e) => {
-    if (userid === "IM1024" && phoneNo === "7034398989" && otpno === "2371") {
-      window.location.href = "/imallocation";
-    } else if (
-      userid === "SK1369" &&
-      phoneNo === "7034398989" &&
-      otpno === "5678"
-    ) {
-      window.location.href = "/skallocation";
-    } else if (
-      userid === "admin" &&
-      phoneNo === "7034398989" &&
-      otpno === "4408"
-    ) {
-      window.location.href = "/admin";
-    } else {
-      toast.error("Invalid credantials");
-    }
-  };
+  // const onLogin = (e) => {
+  //   if (userid === "IM1024" && phoneNo === "7034398989" && otpno === "2371") {
+  //     window.location.href = "/imallocation";
+  //   } else if (
+  //     userid === customersData.map() &&
+  //     phoneNo === "7034398989" &&
+  //     otpno === "5678"
+  //   ) {
+  //     window.location.href = "/skallocation";
+  //   } else if (
+  //     userid === "admin" &&
+  //     phoneNo === "7034398989" &&
+  //     otpno === "4408"
+  //   ) {
+  //     window.location.href = "/admin";
+  //   } else {
+  //     toast.error("Invalid credantials");
+  //   }
+  // };
 
   const pages = [
     {
@@ -156,10 +274,11 @@ export default function SignIn() {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              onSubmit={onSignInSubmit}
               noValidate
               sx={{ mt: 1 }}
             >
+              <div id="sign-in-button"></div>
               <TextField
                 margin="normal"
                 color="success"
@@ -172,7 +291,7 @@ export default function SignIn() {
                 autoFocus
                 onChange={handleUserChange}
               />
-              <TextField
+              {/* <TextField
                 color="success"
                 margin="normal"
                 required
@@ -183,7 +302,7 @@ export default function SignIn() {
                 id="phone_number"
                 // autoComplete="current-password"
                 onChange={handlePhoneNoChange}
-              />
+              /> */}
               {show && (
                 <TextField
                   margin="normal"
@@ -205,11 +324,12 @@ export default function SignIn() {
                   // fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={onLogin}
+                  onClick={onSubmitOTP}
                   style={{
                     background: "#17396B",
                     margin: "50px 0",
                   }}
+                  id="confirm-code"
                 >
                   Submit
                 </Button>
@@ -222,22 +342,19 @@ export default function SignIn() {
                   // fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={getOTP}
+                  // onClick={getOTP}
                   style={{
                     background: "#17396B",
                     margin: "50px 0",
                   }}
+                  id="sign-in-button"
+                  onSubmit={onSignInSubmit}
                 >
                   Get OTP
                 </Button>
               )}
               <div id="recarecaptcha-container"></div>
               <Grid container>
-                {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
                 <Grid item>
                   <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
