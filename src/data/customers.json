@@ -1,0 +1,46 @@
+[
+    {
+        "userid": "180039",
+        "name": "Neethu",
+        "kerosene": 0,
+        "wheat": 0,
+        "rice": 0,
+        "district": "Thiruvananthapuram",
+        "address": "Poojappura",
+        "phoneno": 7034398989,
+        "isBought": false
+    },
+    {
+        "userid": "180483",
+        "name": "Nihara",
+        "kerosene": 0,
+        "wheat": 0,
+        "rice": 0,
+        "district": "Palakkad",
+        "address": "Poojappura",
+        "phoneno": 7034398989,
+        "isBought": false
+    },
+    {
+        "userid": "180272",
+        "name": "Nived P S",
+        "kerosene": 0,
+        "wheat": 0,
+        "rice": 0,
+        "district": "Thiruvananthapuram",
+        "address": "Poojappura",
+        "phoneno": 7034398989,
+        "isBought": false
+    },
+    {
+        "userid": "180359",
+        "name": "Neethu",
+        "kerosene": 0,
+        "wheat": 0,
+        "rice": 0,
+        "district": "Thiruvananthapuram",
+        "address": "Poojappura",
+        "phoneno": 7034398989,
+        "isBought": false
+    }
+]

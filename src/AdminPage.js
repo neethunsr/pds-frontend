@@ -7,115 +7,148 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import firebase from "./firebase";
+import { useState, useEffect } from "react";
 
 function AdminCard(props) {
-  const [status, setStatus] = React.useState(props.status);
-  const handleApprove = () => {
-    setStatus("Approved");
-    toast.success(`Approved ${props.uid}!`, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const handleCancel = () => {
-    setStatus("Cancelled");
-    toast.error(`Cancelled ${props.uid}!`, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  return (
-    <Card sx={{ maxWidth: 475, minWidth: "maxContent" }} variant="outlined">
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {props.type}
-        </Typography>
-        <Typography variant="h5" component="div">
-          {props.uid}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {props.place}
-        </Typography>
-        <Typography variant="body2">
-          {props.name}
-          <br />
-          {props.address}
-        </Typography>
-      </CardContent>
-      {props.status === "Approved" ||
-      status === "Approved" ||
-      status === "Cancelled" ? (
-        <Button color="secondary" size="small">
-          {status}
-        </Button>
-      ) : (
-        <CardActions
-          style={{ display: "flex", justifyContent: "space-around" }}
-        >
-          <Button color="success" size="small" onClick={handleApprove}>
-            Approve
-          </Button>
-          <Button color="warning" size="small" onClick={handleCancel}>
-            Cancel
-          </Button>
-        </CardActions>
-      )}
-    </Card>
-  );
+	const [status, setStatus] = React.useState(props.status);
+	const handleApprove = () => {
+		setStatus("Approved");
+		toast.success(`Approved ${props.uid}!`, {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: true,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+	const handleCancel = () => {
+		setStatus("Cancelled");
+		toast.error(`Cancelled ${props.uid}!`, {
+			position: "top-right",
+			autoClose: 3000,
+			hideProgressBar: true,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+		});
+	};
+	return (
+		<Card sx={{ maxWidth: 475, minWidth: "maxContent" }} variant="outlined">
+			<CardContent>
+				<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+					{props.type}
+				</Typography>
+				<Typography variant="h5" component="div">
+					{props.uid}
+				</Typography>
+				<Typography sx={{ mb: 1.5 }} color="text.secondary">
+					{props.place}
+				</Typography>
+				<Typography variant="body2">
+					{props.name}
+					<br />
+					{props.address}
+				</Typography>
+			</CardContent>
+			{props.status === "Approved" ||
+			status === "Approved" ||
+			status === "Cancelled" ? (
+				<Button color="secondary" size="small">
+					{status}
+				</Button>
+			) : (
+				<CardActions
+					style={{ display: "flex", justifyContent: "space-around" }}
+				>
+					<Button color="success" size="small" onClick={handleApprove}>
+						Approve
+					</Button>
+					<Button color="warning" size="small" onClick={handleCancel}>
+						Cancel
+					</Button>
+				</CardActions>
+			)}
+		</Card>
+	);
 }
 const pages = [
-  {
-    name: "HOME",
-    link: "/",
-    id: 1,
-  },
-  {
-    name: "APPROVE",
-    link: "#",
-    id: 2,
-  },
-  {
-    name: "VIEW TRANSACTIONS",
-    link: "/view",
-    id: 3,
-  },
+	{
+		name: "HOME",
+		link: "/",
+		id: 1,
+	},
+	{
+		name: "APPROVE",
+		link: "#",
+		id: 2,
+	},
+	{
+		name: "VIEW TRANSACTIONS",
+		link: "/view",
+		id: 3,
+	},
 ];
 function AdminPage() {
-  return (
-    <div style={{marginBottom:"50px"}}>
-      <Header pages={pages} log={true} />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <h1 style={{ margin: "50px" }}>Admin Approvals</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          margin: "20px",
-          padding: "20px",
-        }}
-      >
-        <AdminCard
+	const ref = firebase.firestore().collection("users");
+	const [data, setData] = useState([]);
+	const items = [];
+
+	function getData() {
+		ref.onSnapshot((querySnapshot) => {
+			querySnapshot.forEach((doc) => {
+				items.push(doc.data());
+				setData(items);
+				// setLoader(false);
+			});
+		});
+	}
+	getData();
+	// useEffect(() => {
+	//   getData();
+	//   // setLoader(false);
+	//   console.log(data);
+	// }, []);
+	console.log("data", data);
+	return (
+		<div style={{ marginBottom: "50px" }}>
+			<Header pages={pages} log={true} />
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<h1 style={{ margin: "50px" }}>Admin Approvals</h1>
+			<div
+				style={{
+					display: "flex",
+					justifyContent: "space-evenly",
+					alignItems: "center",
+					margin: "20px",
+					padding: "20px",
+				}}
+			>
+				{data.map((user) => (
+					<AdminCard
+						type="Approve Shopkeeper"
+						address={user.address}
+						uid={user.license}
+						name={user.name}
+						place="Trivandrum"
+						status=""
+					/>
+					// console.log(user);
+				))}
+				{/* <AdminCard
           type="Approve Inventory Manager"
           address="0x36fB397bEf608f78Ff5b86F4a9952Bba09BcB18F"
           uid="IM1024"
@@ -138,10 +171,10 @@ function AdminPage() {
           name="Alice Stuart"
           place="Sreekaryam"
           status="Approved"
-        />
-      </div>
-    </div>
-  );
+        /> */}
+			</div>
+		</div>
+	);
 }
 
 export default AdminPage;

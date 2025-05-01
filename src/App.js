@@ -13,37 +13,39 @@ import Header from "./components/Header";
 import AdminPage from "./AdminPage";
 import ViewTransaction from "./ViewTr";
 import { ToastContainer } from "react-toastify";
+import StockData from "./StockData";
 
 function App() {
-  // console.log(contract.abi);
-  return (
-    <div className="App">
-      {/* <Header /> */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SignIn />}></Route>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-          <Route path="/imallocation" element={<IMAllocation />} />
-          <Route path="/skallocation" element={<SKAllocation />} />
-          <Route path="/blockregister" element={<BlockRegister />} />
-          <Route path="/view" element={<ViewTransaction />} />
-        </Routes>
-      </BrowserRouter>
-      <Footer />
-    </div>
-  );
+	// console.log(contract.abi);
+	return (
+		<div className="App">
+			{/* <Header /> */}
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<SignIn />}></Route>
+					<Route path="/register" element={<RegisterPage />} />
+					<Route path="/admin" element={<AdminPage />} />
+					<Route path="/imallocation" element={<IMAllocation />} />
+					<Route path="/skallocation" element={<SKAllocation />} />
+					<Route path="/blockregister" element={<BlockRegister />} />
+					<Route path="/view" element={<ViewTransaction />} />
+					<Route path="/stock" element={<StockData />} />
+				</Routes>
+			</BrowserRouter>
+			<Footer />
+		</div>
+	);
 }
 
 export default App;
