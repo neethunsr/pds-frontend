@@ -22,7 +22,7 @@ function Footer() {
               system
             </p>
             <p>
-              <CopyrightIcon /> 2022 | All rights reserved
+              <CopyrightIcon /> 2025 | All rights reserved
             </p>
           </Grid>
           <Grid item xs={4}>
