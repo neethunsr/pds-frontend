@@ -13,30 +13,19 @@ import Header from "./components/Header";
 import { Paper } from "@mui/material";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { initializeApp } from "firebase/app";
+// import { initializeApp } from "firebase/app";
 import { collection, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import customersData from "./data/customers.json";
-import firebase from "./firebase";
+import app from "./firebase";
 import {
 	getAuth,
 	RecaptchaVerifier,
 	signInWithPhoneNumber,
 } from "firebase/auth";
+import "firebase/firestore";
 
 const theme = createTheme();
-const firebaseConfig = {
-	apiKey: "AIzaSyC93gdZfaSH3bHm_4u7MD6ImjbrFpbgxSc",
-	authDomain: "finalprojectpds-b9a7e.firebaseapp.com",
-	projectId: "finalprojectpds-b9a7e",
-	storageBucket: "finalprojectpds-b9a7e.appspot.com",
-	messagingSenderId: "426892116372",
-	appId: "1:426892116372:web:6ace6da8e77ba269ef4f81",
-	measurementId: "G-Z8QLN3F6XG",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
 // const db = getFirestore(app);
@@ -50,7 +39,7 @@ export default function SignIn() {
 	const [phoneNo, setPhoneNo] = useState("");
 	const [otpno, setOtpno] = useState("");
 	const [loader, setLoader] = useState(true);
-	const ref = firebase.firestore().collection("users");
+	const ref = app.firestore().collection("users");
 	const [data, setData] = useState([]);
 	// console.log(data);
 
@@ -92,7 +81,7 @@ export default function SignIn() {
 					onSignInSubmit();
 					console.log(response);
 				},
-				defaultCountry: "IND",
+				// defaultCountry: "IND",
 			},
 			auth
 		);
@@ -114,7 +103,9 @@ export default function SignIn() {
 
 		// console.log(flag);
 		// setPhoneNo()
-		configureCaptcha();
+		if (!window.recaptchaVerifier) {
+			configureCaptcha();
+		}
 
 		const phoneNumber = "+917034398989";
 		console.log(phoneNumber);
@@ -127,6 +118,7 @@ export default function SignIn() {
 				// user in with confirmationResult.confirm(code).
 				window.confirmationResult = confirmationResult;
 				setShow(true);
+				console.log(confirmationResult);
 
 				console.log("OTP has been sent");
 				// ...
@@ -188,9 +180,6 @@ export default function SignIn() {
 	const handleUserChange = (e) => {
 		setUserid(e.target.value);
 	};
-	// const handlePhoneNoChange = (e) => {
-	//   setPhoneNo(e.target.value);
-	// };
 	const handleOTPChange = (e) => {
 		setOtpno(e.target.value);
 	};
@@ -291,18 +280,6 @@ export default function SignIn() {
 								autoFocus
 								onChange={handleUserChange}
 							/>
-							{/* <TextField
-                color="success"
-                margin="normal"
-                required
-                fullWidth
-                name="phone_number"
-                label="Phone Number"
-                type="text"
-                id="phone_number"
-                // autoComplete="current-password"
-                onChange={handlePhoneNoChange}
-              /> */}
 							{show && (
 								<TextField
 									margin="normal"
@@ -353,7 +330,7 @@ export default function SignIn() {
 									Get OTP
 								</Button>
 							)}
-							<div id="recarecaptcha-container"></div>
+							<div id="recaptcha-container"></div>
 							<Grid container>
 								<Grid item>
 									<Link href="/register" variant="body2">
