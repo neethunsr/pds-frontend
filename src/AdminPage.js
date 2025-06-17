@@ -7,8 +7,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import firebase from "./firebase";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import app from "./firebase";
 
 function AdminCard(props) {
 	const [status, setStatus] = React.useState(props.status);
@@ -93,7 +93,7 @@ const pages = [
 	},
 ];
 function AdminPage() {
-	const ref = firebase.firestore().collection("users");
+	const ref = app.firestore().collection("users");
 	const [data, setData] = useState([]);
 	const items = [];
 

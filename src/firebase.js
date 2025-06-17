@@ -1,39 +1,32 @@
-import firebase from "firebase/compat/app";
+// import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyD5spuMjdjcVSphUP3oTMqiu4xmUEr3eWk",
-//   authDomain: "ration-db8cf.firebaseapp.com",
-//   projectId: "ration-db8cf",
-//   storageBucket: "ration-db8cf.appspot.com",
-//   messagingSenderId: "1077498149638",
-//   appId: "1:1077498149638:web:d84f0ab7be604e9432bc87",
-//   measurementId: "G-YNKDQFVS9S"
-// };
-
-// firebase.initializeApp(firebaseConfig);
-// // eslint-disable-next-line
-
 // Import the functions you need from the SDKs you need
-// import { initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app";
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-	apiKey: "AIzaSyC93gdZfaSH3bHm_4u7MD6ImjbrFpbgxSc",
-	authDomain: "finalprojectpds-b9a7e.firebaseapp.com",
-	projectId: "finalprojectpds-b9a7e",
-	storageBucket: "finalprojectpds-b9a7e.appspot.com",
-	messagingSenderId: "426892116372",
-	appId: "1:426892116372:web:6ace6da8e77ba269ef4f81",
-	measurementId: "G-Z8QLN3F6XG",
+export const firebaseConfig = {
+	apiKey: "AIzaSyBkAQFqP5x6xEABYG-5Q1pB0Eb4EzGKp5o",
+	authDomain: "blockchain-pds-2025.firebaseapp.com",
+	projectId: "blockchain-pds-2025",
+	storageBucket: "blockchain-pds-2025.firebasestorage.app",
+	messagingSenderId: "1041268416766",
+	appId: "1:1041268416766:web:1f7bd54f5bcaaebb2985af",
+	measurementId: "G-8CC185HNNB",
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+	firebase.initializeApp(firebaseConfig);
+	// let firestore = firebase.firestore();
+}
+// const analytics = getAnalytics(app);
+// firebase.initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 export default firebase;
