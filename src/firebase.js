@@ -24,8 +24,9 @@ export const firebaseConfig = {
 // const app = initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
 	firebase.initializeApp(firebaseConfig);
-	// let firestore = firebase.firestore();
 }
+export let db = firebase.firestore();
+
 // const analytics = getAnalytics(app);
 // firebase.initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
