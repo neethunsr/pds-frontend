@@ -154,7 +154,11 @@ export default function SignIn() {
 			.then((result) => {
 				// User signed in successfully.
 				const user = result.user;
-				console.log(JSON.stringify(user));
+				console.log(JSON.stringify(user), "User signed in successfully.");
+				// Store user id in localStorage
+				if (user && user.id) {
+					localStorage.setItem("firebaseUserId", user.id);
+				}
 				toast.success("User verified");
 				setsuccess(true);
 				// ...
@@ -211,7 +215,7 @@ export default function SignIn() {
 		},
 		{
 			name: "ABOUT US",
-			link: "#",
+			link: "/about",
 			id: 3,
 		},
 		{
