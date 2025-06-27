@@ -14,6 +14,9 @@ import AdminPage from "./AdminPage";
 import ViewTransaction from "./ViewTr";
 import { ToastContainer } from "react-toastify";
 import StockData from "./StockData";
+import SmartContractIntegration from "./SmartContractIntegration";
+import HomePage from "./HomePage";
+import About from "./About";
 
 function App() {
 	// console.log(contract.abi);
@@ -33,7 +36,9 @@ function App() {
 			/>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<SignIn />}></Route>
+					<Route path="/signin" element={<SignIn />}></Route>
+					<Route path="/" element={<HomePage />}></Route>
+					<Route path="/about" element={<About />}></Route>
 					<Route path="/register" element={<RegisterPage />} />
 					<Route path="/admin" element={<AdminPage />} />
 					<Route path="/imallocation" element={<IMAllocation />} />
@@ -41,6 +46,7 @@ function App() {
 					<Route path="/blockregister" element={<BlockRegister />} />
 					<Route path="/view" element={<ViewTransaction />} />
 					<Route path="/stock" element={<StockData />} />
+					<Route path="/smartcontract" element={<SmartContractIntegration />} />
 				</Routes>
 			</BrowserRouter>
 			<Footer />
