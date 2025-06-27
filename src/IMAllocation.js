@@ -13,7 +13,10 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { Delete as DeleteIcon, Refresh as RefreshIcon } from "@mui/icons-material";
+import {
+	Delete as DeleteIcon,
+	Refresh as RefreshIcon,
+} from "@mui/icons-material";
 import Header from "./components/Header";
 import { toast } from "react-toastify";
 import firebase from "./firebase";
@@ -24,6 +27,7 @@ const IVAllocation = () => {
 	const { register, handleSubmit, reset } = useForm();
 	const [allocations, setAllocations] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [searchShopId, setSearchShopId] = useState("");
 	const ref = firebase.firestore().collection("ration_allocations");
 
 	// Fetch allocations from Firestore
@@ -31,9 +35,9 @@ const IVAllocation = () => {
 		setLoading(true);
 		try {
 			const snapshot = await ref.orderBy("timestamp", "desc").get();
-			const allocationData = snapshot.docs.map(doc => ({
+			const allocationData = snapshot.docs.map((doc) => ({
 				id: doc.id,
-				...doc.data()
+				...doc.data(),
 			}));
 			setAllocations(allocationData);
 		} catch (error) {
@@ -49,6 +53,33 @@ const IVAllocation = () => {
 		fetchAllocations();
 	}, []);
 
+	// Get logged-in user id from localStorage
+	const firebaseUserId = localStorage.getItem("firebaseUserId");
+	console.log(firebaseUserId);
+
+	// Query users collection and get license field for the logged-in user
+	const [userLicense, setUserLicense] = useState(null);
+
+	useEffect(() => {
+		const fetchUserLicense = async () => {
+			if (!firebaseUserId) return;
+			try {
+				const userDoc = await firebase
+					.firestore()
+					.collection("users")
+					.doc(firebaseUserId)
+					.get();
+				if (userDoc.exists) {
+					setUserLicense(userDoc.data().license);
+				}
+			} catch (error) {
+				console.error("Error fetching user license:", error);
+			}
+		};
+		fetchUserLicense();
+	}, [firebaseUserId]);
+	console.log(userLicense);
+
 	// Add allocation to Firestore
 	const onSubmit = async (data) => {
 		setLoading(true);
@@ -59,8 +90,8 @@ const IVAllocation = () => {
 				rice: parseInt(data.rice),
 				kerosene: parseInt(data.kerosene),
 				timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-				allocatedBy: "IM", // You can make this dynamic based on logged-in user
-				date: new Date().toLocaleDateString()
+				allocatedBy: userLicense ? userLicense : "IM",
+				date: new Date().toLocaleDateString(),
 			};
 
 			await ref.add(allocationData);
@@ -244,51 +275,95 @@ const IVAllocation = () => {
 					</Container>
 
 					{/* Display existing allocations */}
-					<div style={{ marginTop: "30px", maxHeight: "300px", overflowY: "auto" }}>
-						<Typography variant="h6" style={{ marginBottom: "15px", color: "#17396B" }}>
+					<div
+						style={{ marginTop: "30px", maxHeight: "300px", overflowY: "auto" }}
+					>
+						<Typography
+							variant="h6"
+							style={{ marginBottom: "15px", color: "#17396B" }}
+						>
 							Recent Allocations
 						</Typography>
-						{allocations.length === 0 ? (
-							<Typography variant="body2" style={{ textAlign: "center", color: "#666" }}>
+						<TextField
+							label="Search by Shop ID"
+							variant="outlined"
+							size="small"
+							value={searchShopId}
+							onChange={(e) => setSearchShopId(e.target.value)}
+							style={{ marginBottom: "15px", width: 200 }}
+						/>
+						{allocations.filter(
+							(allocation) =>
+								searchShopId === "" ||
+								String(allocation.shopNo).includes(searchShopId)
+						).length === 0 ? (
+							<Typography
+								variant="body2"
+								style={{ textAlign: "center", color: "#666" }}
+							>
 								No allocations found
 							</Typography>
 						) : (
-							allocations.map((allocation) => (
-								<Card 
-									key={allocation.id} 
-									style={{ 
-										marginBottom: "10px", 
-										border: "1px solid #e0e0e0",
-										boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-									}}
-								>
-									<CardContent style={{ padding: "12px", position: "relative" }}>
-										<div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-											<div>
-												<Typography variant="subtitle2" style={{ fontWeight: "bold", color: "#17396B" }}>
-													Shop No: {allocation.shopNo}
-												</Typography>
-												<Typography variant="body2" style={{ margin: "5px 0" }}>
-													<strong>Wheat:</strong> {allocation.wheat}kg | 
-													<strong> Rice:</strong> {allocation.rice}kg | 
-													<strong> Kerosene:</strong> {allocation.kerosene}L
-												</Typography>
-												<Typography variant="caption" style={{ color: "#666" }}>
-													Date: {allocation.date} | By: {allocation.allocatedBy}
-												</Typography>
-											</div>
-											<IconButton
-												onClick={() => removeAllocation(allocation.id)}
-												disabled={loading}
-												style={{ color: "#d32f2f", padding: "4px" }}
-												title="Remove allocation"
+							allocations
+								.filter(
+									(allocation) =>
+										searchShopId === "" ||
+										String(allocation.shopNo).includes(searchShopId)
+								)
+								.map((allocation) => (
+									<Card
+										key={allocation.id}
+										style={{
+											marginBottom: "10px",
+											border: "1px solid #e0e0e0",
+											boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+										}}
+									>
+										<CardContent
+											style={{ padding: "12px", position: "relative" }}
+										>
+											<div
+												style={{
+													display: "flex",
+													justifyContent: "space-between",
+													alignItems: "flex-start",
+												}}
 											>
-												<DeleteIcon fontSize="small" />
-											</IconButton>
-										</div>
-									</CardContent>
-								</Card>
-							))
+												<div>
+													<Typography
+														variant="subtitle2"
+														style={{ fontWeight: "bold", color: "#17396B" }}
+													>
+														Shop No: {allocation.shopNo}
+													</Typography>
+													<Typography
+														variant="body2"
+														style={{ margin: "5px 0" }}
+													>
+														<strong>Wheat:</strong> {allocation.wheat}kg |
+														<strong> Rice:</strong> {allocation.rice}kg |
+														<strong> Kerosene:</strong> {allocation.kerosene}L
+													</Typography>
+													<Typography
+														variant="caption"
+														style={{ color: "#666" }}
+													>
+														Date: {allocation.date} | By:{" "}
+														{allocation.allocatedBy}
+													</Typography>
+												</div>
+												<IconButton
+													onClick={() => removeAllocation(allocation.id)}
+													disabled={loading}
+													style={{ color: "#d32f2f", padding: "4px" }}
+													title="Remove allocation"
+												>
+													<DeleteIcon fontSize="small" />
+												</IconButton>
+											</div>
+										</CardContent>
+									</Card>
+								))
 						)}
 					</div>
 				</div>
