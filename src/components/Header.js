@@ -10,8 +10,8 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { deepOrange } from "@mui/material/colors";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 
 // const pages = ["HOME", "ALLOCATIONS", "SIGN UP","VIEW TRANSACTION"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -34,7 +34,7 @@ const ResponsiveAppBar = ({ pages, log }) => {
 		>
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+					<StorefrontIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
 					<Typography
 						variant="h6"
 						noWrap
@@ -51,7 +51,7 @@ const ResponsiveAppBar = ({ pages, log }) => {
 							textDecoration: "none",
 						}}
 					>
-						SUPPLY CHAIN
+						PUBLIC DISTRIBUTION SYSTEM
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 						{pages.map((page) => (
