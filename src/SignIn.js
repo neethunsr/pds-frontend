@@ -13,10 +13,6 @@ import Header from "./components/Header";
 import { Paper } from "@mui/material";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-// import { initializeApp } from "firebase/app";
-import { collection, getDocs } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
-import customersData from "./data/customers.json";
 import app from "./firebase";
 import {
 	getAuth,
@@ -27,21 +23,14 @@ import "firebase/firestore";
 
 const theme = createTheme();
 
-// Initialize Cloud Firestore and get a reference to the service
-// const db = getFirestore(app);
-
-// const phoneNumber = "+917034398989";
-
 export default function SignIn() {
 	const auth = getAuth();
-	auth.languageCode = "it";
 	const [userid, setUserid] = useState("");
 	const [phoneNo, setPhoneNo] = useState("");
 	const [otpno, setOtpno] = useState("");
 	const [loader, setLoader] = useState(true);
 	const ref = app.firestore().collection("users");
 	const [data, setData] = useState([]);
-	// console.log(data);
 
 	function getData() {
 		ref.onSnapshot((querySnapshot) => {
@@ -53,17 +42,6 @@ export default function SignIn() {
 			});
 		});
 	}
-	// const [rationid, setRationid] = useState();
-	// if (loader === false) {
-	//   data.map((user) => {
-	//     // setRationid(user.rationid);
-	//     // console.log(user.rationid);
-	//     if (user.rationid == userid) {
-	//       setPhoneNo(user.phoneno);
-	//     }
-	//   });
-	//   // console.log(rationid);
-	// }
 
 	useEffect(() => {
 		getData();
@@ -81,61 +59,51 @@ export default function SignIn() {
 					onSignInSubmit();
 					console.log(response);
 				},
-				// defaultCountry: "IND",
 			},
 			auth
 		);
 	};
 	const [flag, setflag] = useState("");
-	const onSignInSubmit = (e) => {
+	const onSignInSubmit = async (e) => {
 		e.preventDefault();
 		const dataFromForm = new FormData(e.currentTarget);
 		const userno = dataFromForm.get("userid");
-		// console.log(userno);
-		data.map((user) => {
-			// setRationid(user.rationid);
-			console.log(user);
-			// console.log(user.rationid);
-			if (user.rationid === userno) {
-				console.log("User verified!");
-			}
-		});
-
-		// console.log(flag);
-		// setPhoneNo()
+		// Find user in firebase collection
+		const userObj = data.find((user) => user.license === userno);
+		console.log(userObj);
+		if (!userObj) {
+			toast.error("User ID not found");
+			return;
+		}
+		if (userObj.approval !== true) {
+			toast.error("User not approved by admin");
+			return;
+		}
+		const phoneNumber = "+91" + userObj.phone;
+		if (!phoneNumber) {
+			toast.error("No phone number associated with this user");
+			return;
+		}
 		if (!window.recaptchaVerifier) {
 			configureCaptcha();
 		}
-
-		const phoneNumber = "+917034398989";
-		console.log(phoneNumber);
 		const appVerifier = window.recaptchaVerifier;
-
 		const auth = getAuth();
 		signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 			.then((confirmationResult) => {
-				// SMS sent. Prompt user to type the code from the message, then sign the
-				// user in with confirmationResult.confirm(code).
 				window.confirmationResult = confirmationResult;
 				setShow(true);
 				console.log(confirmationResult);
-
 				console.log("OTP has been sent");
-				// ...
 			})
 			.catch((error) => {
-				// Error; SMS not sent
 				console.log("SMS not sent");
 			});
 		if (userno[0] === "S") {
-			// window.location.href = "/imallocation";
 			setflag("S");
 			console.log(phoneNo);
 		} else if (userno[0] === "I") {
 			setflag("I");
-
-			// setPhoneNo("7034398989");
-			// window.location.href = "/skallocation";
 		} else if (userno[0] === "a") {
 			setflag("a");
 		} else {
@@ -161,7 +129,6 @@ export default function SignIn() {
 				}
 				toast.success("User verified");
 				setsuccess(true);
-				// ...
 			})
 			.catch((error) => {
 				// User couldn't sign in (bad verification code?)
@@ -178,7 +145,6 @@ export default function SignIn() {
 	if (success === true && flag === "a") {
 		window.location.href = "/admin";
 	}
-	// require("firebase/auth");
 	const [show, setShow] = useState(false);
 
 	const handleUserChange = (e) => {
@@ -187,25 +153,6 @@ export default function SignIn() {
 	const handleOTPChange = (e) => {
 		setOtpno(e.target.value);
 	};
-	// const onLogin = (e) => {
-	//   if (userid === "IM1024" && phoneNo === "7034398989" && otpno === "2371") {
-	//     window.location.href = "/imallocation";
-	//   } else if (
-	//     userid === customersData.map() &&
-	//     phoneNo === "7034398989" &&
-	//     otpno === "5678"
-	//   ) {
-	//     window.location.href = "/skallocation";
-	//   } else if (
-	//     userid === "admin" &&
-	//     phoneNo === "7034398989" &&
-	//     otpno === "4408"
-	//   ) {
-	//     window.location.href = "/admin";
-	//   } else {
-	//     toast.error("Invalid credantials");
-	//   }
-	// };
 
 	const pages = [
 		{
@@ -228,7 +175,6 @@ export default function SignIn() {
 		<ThemeProvider theme={theme}>
 			<Header pages={pages} log={false} />
 			<Grid container component="main" sx={{ height: "100vh" }}>
-				{/* <Container component="main" maxWidth="xs"> */}
 				<CssBaseline />
 				<Grid
 					item
@@ -280,7 +226,6 @@ export default function SignIn() {
 								id="user_id"
 								label="User Id"
 								name="userid"
-								// autoComplete="email"
 								autoFocus
 								onChange={handleUserChange}
 							/>
@@ -296,13 +241,11 @@ export default function SignIn() {
 									id="otp"
 									variant="standard"
 									onChange={handleOTPChange}
-									// autoComplete="current-password"
 								/>
 							)}
 							{show && (
 								<Button
 									type="submit"
-									// fullWidth
 									variant="contained"
 									sx={{ mt: 3, mb: 2 }}
 									onClick={onSubmitOTP}
@@ -320,10 +263,8 @@ export default function SignIn() {
 							) : (
 								<Button
 									type="submit"
-									// fullWidth
 									variant="contained"
 									sx={{ mt: 3, mb: 2 }}
-									// onClick={getOTP}
 									style={{
 										background: "#17396B",
 										margin: "50px 0",
@@ -345,7 +286,6 @@ export default function SignIn() {
 						</Box>
 					</Box>
 				</Grid>
-				{/* </Container> */}
 			</Grid>
 		</ThemeProvider>
 	);

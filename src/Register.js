@@ -1,6 +1,4 @@
-import * as React from "react";
 import { TextField, Button, Container, Box, Avatar } from "@mui/material";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -10,13 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const RegisterPage = () => {
-	// const { register, handleSubmit } = useForm();
-
 	const [license, setlicense] = useState("");
 	const [name, setname] = useState("");
 	const [address, setaddress] = useState("");
 	const [phone, setphone] = useState("");
 	const ref = firebase.firestore().collection("users");
+	const approval = false; // Default approval status
 
 	const handleInputChange = (e) => {
 		const { id, value } = e.target;
@@ -43,8 +40,16 @@ const RegisterPage = () => {
 	}
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		if (!license || !name || !address || !phone) {
+			toast.error("Please fill in all fields before submitting.");
+			return;
+		}
 		console.log(license, name, address, phone);
-		createDoc({ license, name, phone, address });
+		createDoc({ license, name, phone, address, approval });
+		toast.success("User registered successfully! Redirecting to Sign In...");
+		setTimeout(() => {
+			window.location.href = "/signin";
+		}, 1500);
 	};
 
 	const pages = [
@@ -55,12 +60,12 @@ const RegisterPage = () => {
 		},
 		{
 			name: "ABOUT US",
-			link: "#",
+			link: "/about",
 			id: 3,
 		},
 		{
 			name: "SIGN IN",
-			link: "/",
+			link: "/signin",
 			id: 2,
 		},
 	];
