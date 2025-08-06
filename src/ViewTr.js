@@ -15,17 +15,12 @@ function ViewTransaction() {
     },
     {
       name: "APPROVE",
-      link: "#",
+      link: "/admin",
       id: 2,
     },
     {
-      name: "ALLOCATE",
-      link: "#",
-      id: 4,
-    },
-    {
       name: "VIEW TRANSACTIONS",
-      link: "/view",
+      link: "#",
       id: 3,
     },
   ];

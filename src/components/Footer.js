@@ -35,7 +35,7 @@ function Footer() {
           <Grid item xs={4}>
             <h4>Contact Us</h4>
             <p>rcmskerala@gmail.com</p>
-            <p>1967</p>
+            <p>Toll Free : 1967</p>
             <p>+91 XXXXXXXXXX</p>
             <p>+91 XXXXXXXXXX</p>
           </Grid>
